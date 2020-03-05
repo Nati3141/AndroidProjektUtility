@@ -7,12 +7,17 @@ import java.util.List;
 import de.natalie.validator.exceptions.FailedArithmeticRuleException;
 import de.natalie.validator.exceptions.InvalidUserInputException;
 
+/**
+ * 
+ * @author Natalie Bestler
+ * 
+ */
 public class Validator {
 	
 	private List<Operator> operators;
 	
 	/**
-	 * 
+	 * Erstellt neue Validierung und bereitet diese vor
 	 * @param userInput Eine Formel, welche aus {@link Operator} besteht, die mit einem Leerzeichen vonneinander getrennt sind
 	 * @throws InvalidUserInputException
 	 */
@@ -20,6 +25,10 @@ public class Validator {
 		operators = convertStringInputToOperators(userInput);
 	}
 	
+	/**
+	 * Führt Validierung aus
+	 * @throws InvalidUserInputException Wenn mindestens ein Operator syntaktisch nicht korrekt ist
+	 */
 	public void checkUserInput() throws InvalidUserInputException{
 		try {
 			assertArithmeticRules();
@@ -29,6 +38,11 @@ public class Validator {
 		}
 	}
 	
+	/**
+	 * Konvertiert die eingegebene Formel zu einer Liste aus Operatoren
+	 * @param userInput eingegebene Formel
+	 * @return Liste aus Operatoren
+	 */
 	private List<Operator> convertStringInputToOperators(String userInput){
 		List<Operator> operatorList = new ArrayList<>();
 		
@@ -39,10 +53,19 @@ public class Validator {
 		return operatorList;
 	}
 	
+	/**
+	 * Splittet die Formel an Leerzeichen
+	 * @param userInput eingegebene Formel
+	 * @return gesplittete Liste
+	 */
 	private List<String> splitUserInput(String userInput){		
 		return Arrays.asList(userInput.split("\\s+"));
 	}
 	
+	/**
+	 * Prüft sämtliche syntaktischen Regeln
+	 * @throws FailedArithmeticRuleException Wenn eine Regel fehlschlägt
+	 */
 	private void assertArithmeticRules() throws FailedArithmeticRuleException{
 		assertEqualOpenAndClosedBracketAmount();
 		
@@ -52,6 +75,10 @@ public class Validator {
 		}
 	}
 	
+	/**
+	 * Prüft, ob die Zahl der öffnenden und schließenden Klammern identisch ist
+	 * @throws FailedArithmeticRuleException Wenn die Anzahl ungleich ist
+	 */
 	private void assertEqualOpenAndClosedBracketAmount () throws FailedArithmeticRuleException {
 		int differenceBrackets = 0;
 		
@@ -76,6 +103,12 @@ public class Validator {
 		}
 	}
 	
+	/**
+	 * Prüft einzelnen Operator auf syntaktische Korrektheit bis zum aktuellen Index
+	 * @param operator Zu prüfender {@link Operator}
+	 * @param index Position des Operators
+	 * @throws FailedArithmeticRuleException Wenn der geprüfte Operator syntaktisch nicht korrekt ist
+	 */
 	private void assertOperatorRules(Operator operator, int index) throws FailedArithmeticRuleException{
 		switch(operator) {
 			case BRACKET_OPEN:
@@ -102,7 +135,7 @@ public class Validator {
 	}
 	
 	//TODO Fehlernachrichten anpassen
-	//TODO Restliche Methoden kommentieren
+	//TODO True und False als user input
 	
 	
 	/**

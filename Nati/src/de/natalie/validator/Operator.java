@@ -2,7 +2,7 @@ package de.natalie.validator;
 
 /**
  * Ein Operator einer Formel
- * @author Nati
+ * @author Natalie Bestler
  *
  */
 public enum Operator {
@@ -18,6 +18,11 @@ public enum Operator {
 	
 	VARIABLE;
 	
+	/**
+	 * Gibt entsprechenden Operator zurück
+	 * @param identifier Umzuwandelndes Zeichen
+	 * @return Operator des entsprechenden Zeichens ({@link Operator}.VARIABLE bei allem, das kein bekanntes Zeichen ist)
+	 */
 	public static Operator getByIdentifier(String identifier) {
 		switch(identifier.toUpperCase()) {
 			case "(":

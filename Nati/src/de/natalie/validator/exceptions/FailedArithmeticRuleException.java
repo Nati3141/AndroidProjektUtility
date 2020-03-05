@@ -1,6 +1,10 @@
 package de.natalie.validator.exceptions;
 
-
+/**
+ * Exception, die bei ungültiger Syntax geworfen wird
+ * @author Natalie Bestler
+ *
+ */
 public class FailedArithmeticRuleException extends Exception{
 
 	private static final long serialVersionUID = 3475796503777059539L;
