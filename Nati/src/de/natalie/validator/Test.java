@@ -9,6 +9,7 @@ public class Test {
 		test("( A + D + B * C ) + ¬ B * D", true);
 		test("( A ) + ( B ) + ( C + D )", true);
 		test("A + C * ¬ ( B + A )", true);
+		test("( A ) + ( B * C ) + ( C + D )", true);
 		// Klammer auf Test
 		test("¬ ( A * B + C ( ) ) + ¬ ( C * ¬ D )", false);
 		// Klammer zu Test
