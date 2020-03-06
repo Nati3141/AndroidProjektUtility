@@ -25,10 +25,12 @@ public class Test {
 		// NOT Test
 		test("A ¬ + C * ¬ ( B + A )", false);
 		test("A + C * ¬ ( B + A ) ¬", false);
+		test("A + C * ¬ ( B + A ) + ¬", false);
 		// AND und OR Test
 		test("A + * ¬ ( B + A )", false);
 		test("* A + C * ¬ ( B + A )", false);
-		test("A + C * ¬ ( * B + A )", false);		
+		test("A + C * ¬ ( * B + A )", false);
+		test("A + C * ¬ ( B + A ) +", false);
 	}
 	
 	private static int testID = 1;

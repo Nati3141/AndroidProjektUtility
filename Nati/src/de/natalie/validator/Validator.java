@@ -19,7 +19,6 @@ public class Validator {
 	/**
 	 * Erstellt neue Validierung und bereitet diese vor
 	 * @param userInput Eine Formel, welche aus {@link Operator} besteht, die mit einem Leerzeichen vonneinander getrennt sind
-	 * @throws InvalidUserInputException
 	 */
 	public Validator(String userInput){
 		operators = convertStringInputToOperators(userInput);
@@ -179,13 +178,11 @@ public class Validator {
 	}
 	
 	
-	
-	
 	/**
 	 * Prüfe Regeln, bis zum aktuellen Index, die ein AND oder OR erfüllen muss
 	 * @param index Die Position des AND oder OR
 	 * @param operator Der Operator an der Position (AND oder OR)
-	 * @throws FailedArithmeticRuleException Wenn AND oder OR nicht nach einer Variablen oder schließenden Klammer steht
+	 * @throws FailedArithmeticRuleException Wenn AND oder OR nicht nach einer Variablen oder schließenden Klammer steht oder das letzte Zeichen ist
 	 */
 	private void assertAndOrOrRules(int index, Operator operator) throws FailedArithmeticRuleException{
 		//Wenn erstes Zeichen, dann Exception
@@ -196,18 +193,20 @@ public class Validator {
 		//Ansonsten prüfen, ob vorheriges Zeichen eine Variable oder eine Klammer zu ist -> Wenn ja alles okay, ansonsten Exception
 		Operator previousOperator = getPreviousOperator(index);
 		
-		if(previousOperator == Operator.VARIABLE || previousOperator == Operator.BRACKET_CLOSE) {
-			return;
-		}
-		else {
+		if(previousOperator != Operator.VARIABLE && previousOperator != Operator.BRACKET_CLOSE) {
 			throw new FailedArithmeticRuleException(operator + " an Stelle " + (index + 1) + " gefunden, welches nicht nach einer Variablen oder einer Klammer zu steht!");
+		}
+		
+		// Prüft, ob AND oder OR an letzter Stelle steht -> Wenn ja, Exception
+		if (isLastOperator(index)) {
+			throw new FailedArithmeticRuleException(operator + " darf nicht an letzter Stelle stehen.");
 		}
 	}
 	
 	/**
 	  Prüfe Regeln, bis zum aktuellen Index, die ein NOT erfüllen muss
 	 * @param index Die Position des NOT
-	 * @throws FailedArithmeticRuleException Wenn NOT nach einer Variablen oder schließenden Klammer steht
+	 * @throws FailedArithmeticRuleException Wenn NOT nach einer Variablen oder schließenden Klammer steht oder das letzte Zeichen ist
 	 */
 	// TODO Prüfen, ob NOT nach NOT stehen darf
 	private void assertNotRules( int index) throws FailedArithmeticRuleException {
@@ -222,6 +221,11 @@ public class Validator {
 		
 		if(previousOperator == Operator.VARIABLE || previousOperator == Operator.BRACKET_CLOSE) {
 			throw  new FailedArithmeticRuleException ("NOT an Stelle " + (index + 1) + " gefunden, welches nicht nach einer Variablen oder einer Klammer zu steht!");
+		}
+		
+		// Prüft, ob NOT an letzter Stelle steht -> Wenn ja, Exception
+		if (isLastOperator (index)) {
+			throw new FailedArithmeticRuleException("NOT darf nicht als letztes Zeichen stehen.");
 		}
 	}
 	
@@ -248,6 +252,10 @@ public class Validator {
 	
 	private Operator getPreviousOperator(int index) {
 		return operators.get(index - 1);
+	}
+	
+	private boolean isLastOperator (int index) {
+		return (index == operators.size()-1);
 	}
 	
 	
